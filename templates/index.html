@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Overview
+{% endblock %}
+
+{% block main %}
+
+    <h1>Your Overview</h1>
+    <br>
+    <h3 style="float:left">Total Cash: {{ currentCash | usd }}</h3>
+    <button class="btn btn-primary" style="float:left; margin-left: 20px" type="submit"><a href="/addcash" style="color:#ffffff">Add Cash</a></button>
+    <br>
+    <table class="table">
+        <tr>
+            <th>Company Name</th>
+            <th>Stock</th>
+            <th>Shares</th>
+            <th>Share Price</th>
+            <th>Value</th>
+        </tr>
+
+        {% for holding in currHoldings %}
+        <tr>
+            <td>{{ holding.company }}</td>
+            <td>{{ holding.companySym }}</td>
+            <td>{{ holding.companyShares }}</td>
+            <td>{{ holding.price | usd }}</td>
+            <td>{{ holding.value | usd }}</td>
+        </tr>
+        <br>
+        {% endfor %}
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total Equity</b></td>
+            <td><b>{{ totalVal | usd }}</b></td>
+        </tr>
+    </table>
+
+    <div class="row">
+    <div class="column">
+    <br>
+    <h2>Get a Quote</h2>
+    <br>
+    <form action="/quote" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock Symbol" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Lookup Symbol</button>
+    </form>
+    </div>
+
+    <div class="column">
+    <br>
+    <h2>Sell Your Shares</h2>
+    <br>
+    <form action="/sell" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Stock Symbol" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="shares" placeholder="Number of Shares" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Sell</button>
+    </form>
+    </div>
+    </div>
+
+{% endblock %}
